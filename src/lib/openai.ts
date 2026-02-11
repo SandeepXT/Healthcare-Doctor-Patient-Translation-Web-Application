@@ -38,7 +38,9 @@ export async function translateText(
 
 export async function transcribeAudio(audioBuffer: Buffer): Promise<string> {
   try {
-    const file = new File([audioBuffer], 'audio.webm', { type: 'audio/webm' });
+    const uint8Array = new Uint8Array(audioBuffer);
+    const blob = new Blob([uint8Array], { type: 'audio/webm' });
+    const file = new File([blob], 'audio.webm', { type: 'audio/webm' });
 
     const response = await groq.audio.transcriptions.create({
       file: file,
